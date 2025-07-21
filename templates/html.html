@@ -1,0 +1,30 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secure Question Paper Upload</title>
+</head>
+<body>
+    <h2>Secure File Upload</h2>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li style="color: red;">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('encrypt') }}" enctype="multipart/form-data">
+        <label>Candidate ID:</label>
+        <input type="text" name="candidate_id" required><br><br>
+
+        <label>Select File (PDF, DOCX, Audio, ZIP):</label>
+        <input type="file" name="input_file" required><br><br>
+
+        <button type="submit">Encrypt and Upload</button>
+    </form>
+</body>
+</html>

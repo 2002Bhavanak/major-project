@@ -1,0 +1,32 @@
+<!-- templates/decrypt.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Decrypt Question Paper</title>
+</head>
+<body>
+    <h2>🔓 Decrypt Stego Image</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="candidate_id">Enter Your ID:</label>
+        <input type="text" name="candidate_id" required><br><br>
+
+        <label for="stego_image">Upload Stego Image (PNG):</label>
+        <input type="file" name="stego_image" accept=".png" required><br><br>
+
+        <button type="submit">Decrypt</button>
+    </form>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li><strong>{{ message }}</strong></li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <br>
+    <a href="{{ url_for('index') }}">← Back to Home</a>
+</body>
+</html>

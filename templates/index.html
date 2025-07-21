@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secure Question Paper Encryption</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f8f9fa; }
+        h1 { color: #333; }
+        form { margin-bottom: 40px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 5px #ccc; }
+        input[type="file"], input[type="text"], button { display: block; margin: 10px 0; padding: 10px; width: 100%; }
+        button { background: #007BFF; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .flash { color: red; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Secure Question Paper System</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Encryption Form -->
+    <form method="POST" action="/encrypt" enctype="multipart/form-data">
+        <h2>🔐 Encrypt Question Paper</h2>
+        <label for="faculty_id">Enter Faculty ID:</label>
+        <input type="text" name="faculty_id" required>
+
+        <label for="input_file">Upload Question Paper (PDF/DOCX/MP3/ZIP):</label>
+        <input type="file" name="input_file" accept=".pdf,.doc,.docx,.mp3,.wav,.zip,.rar,.ppt,.pptx" required>
+
+        <button type="submit">Encrypt</button>
+    </form>
+
+    <!-- Decryption Form -->
+    <form method="POST" action="/decrypt" enctype="multipart/form-data">
+        <h2>🔓 Decrypt Stego Image</h2>
+        <label for="faculty_id">Enter Faculty ID:</label>
+        <input type="text" name="faculty_id" required>
+
+        <label for="stego_image">Upload Stego Image (PNG):</label>
+        <input type="file" name="stego_image" accept=".png" required>
+
+        <button type="submit">Decrypt</button>
+    </form>
+</body>
+</html>
