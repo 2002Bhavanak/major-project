@@ -8,10 +8,14 @@ app.secret_key = 'supersecretkey'
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx', 'mp3', 'wav', 'zip', 'rar'}
+ALLOWED_IMAGE_EXTENSIONS = {'png'}
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def allowed_image_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
 
 @app.route('/')
 def index():
@@ -49,6 +53,27 @@ def encrypt():
             return redirect(url_for('index'))
     else:
         flash('Invalid file type.')
+        return redirect(url_for('index'))
+
+@app.route('/decrypt', methods=['POST'])
+def decrypt():
+    if 'stego_image' not in request.files or not request.form.get('faculty_id'):
+        flash('Please provide both Faculty ID and stego image file.')
+        return redirect(url_for('index'))
+
+    stego_image = request.files['stego_image']
+    faculty_id = request.form.get('faculty_id').strip()
+
+    if stego_image and allowed_image_file(stego_image.filename):
+        filename = secure_filename(stego_image.filename)
+        stego_image_path = os.path.join(UPLOAD_FOLDER, filename)
+        stego_image.save(stego_image_path)
+
+        # For now, just show a message that decryption functionality is being developed
+        flash('Decryption functionality is under development. Please check back later.')
+        return redirect(url_for('index'))
+    else:
+        flash('Invalid image file type. Please upload a PNG file.')
         return redirect(url_for('index'))
 
 if __name__ == '__main__':
